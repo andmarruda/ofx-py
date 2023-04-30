@@ -82,9 +82,17 @@ class ofx:
             'movements': movements
         }
 
+    def balance(self):
+        ledgerbal = self._xml.bankmsgsrsv1.stmttrnrs.stmtrs.ledgerbal
+        return {
+            'balamt': float(ledgerbal.balamt.string),
+            'dtasof': datetime.date(int(ledgerbal.dtasof.string[0:4]), int(ledgerbal.dtasof.string[4:6]), int(ledgerbal.dtasof.string[6:8]))
+        }
+
 o = ofx('./example.ofx')
 print(o.getProperties())
 print(o.signonmsgsrsv1())
 print(o.stmttrnrs())
 print(o.account())
 print(o.movements())
+print(o.balance())
